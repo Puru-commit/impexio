@@ -19,26 +19,26 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
       <nav
-        className="mx-auto flex h-24 md:h-[104px] max-w-6xl items-center justify-between px-5"
+        className="mx-auto flex h-24 max-w-6xl items-center justify-between px-5 lg:grid lg:h-[104px] lg:grid-cols-[1fr_auto_1fr]"
         aria-label="Main"
       >
-        <Link href="/" className="flex items-center" aria-label="IMPEXIO home">
-        <Image
+        <Link href="/" className="flex items-center justify-self-start" aria-label="IMPEXIO home">
+          <Image
             src="/impexio-logo.png"
             alt="IMPEXIO — Global Trade Simplified"
             width={1075}
             height={793}
             priority
-            className="h-20 w-auto md:h-[88px]"
+            className="h-20 w-auto lg:h-[88px]"
           />
         </Link>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-1 rounded-full border border-border/80 bg-card/70 p-1.5 lg:flex">
           {LINKS.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className="block rounded-full px-4 py-2 text-[15px] font-medium text-foreground/75 transition-colors hover:bg-secondary hover:text-foreground"
               >
                 {l.label}
               </a>
@@ -46,7 +46,7 @@ export function Navbar() {
           ))}
         </ul>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 justify-self-end lg:flex">
           <Link
             href="/login"
             className="px-3 py-2 text-sm font-medium text-foreground hover:text-primary"
@@ -63,7 +63,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="-mr-2 rounded-md p-2 md:hidden"
+          className="-mr-2 rounded-md p-2 lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -73,7 +73,7 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-border bg-background px-5 pb-6 pt-2 md:hidden">
+        <div className="border-t border-border bg-background px-5 pb-6 pt-2 lg:hidden">
           <ul className="flex flex-col">
             {LINKS.map((l) => (
               <li key={l.href}>
