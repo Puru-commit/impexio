@@ -36,10 +36,10 @@ export function Atmosphere() {
   return (
     <div
       aria-hidden
-      className="relative -mb-px h-64 overflow-hidden md:h-96"
+      className="relative -mb-px h-56 overflow-hidden md:h-80"
       style={{
         background:
-          "linear-gradient(in oklab to bottom, #f4f1ea 0%, #dfe7f3 16%, #9db6dc 36%, #4167ad 58%, #17244f 80%, #0b1020 100%)",
+        "linear-gradient(in oklab to bottom, #f4f1ea 0%, #e1e8f4 8%, #a3bade 28%, #4167ad 52%, #17244f 77%, #0b1020 100%)",
       }}
     >
       {STARS.map((s, i) => (
