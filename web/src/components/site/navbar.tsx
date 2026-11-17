@@ -19,21 +19,18 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
       <nav
-        className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5"
+        className="mx-auto flex h-24 md:h-[104px] max-w-6xl items-center justify-between px-5"
         aria-label="Main"
       >
-        <Link href="/" className="flex items-center gap-2.5" aria-label="IMPEXIO home">
-          <Image
-            src="/impexio-mark.png"
-            alt=""
-            width={861}
-            height={549}
+        <Link href="/" className="flex items-center" aria-label="IMPEXIO home">
+        <Image
+            src="/impexio-logo.png"
+            alt="IMPEXIO — Global Trade Simplified"
+            width={1075}
+            height={793}
             priority
-            className="h-8 w-auto"
+            className="h-20 w-auto md:h-[88px]"
           />
-          <span className="text-lg font-bold tracking-[0.14em] text-primary">
-            IMPEXIO
-          </span>
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
