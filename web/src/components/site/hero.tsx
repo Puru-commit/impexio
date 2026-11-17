@@ -53,7 +53,7 @@ function FloatingCard({
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-20 pt-12 md:grid-cols-2 md:pt-20">
+      <div className="mx-auto grid max-w-6xl items-center gap-8 px-5 pb-10 pt-2 md:grid-cols-2 md:pb-14 md:pt-0">
         <div>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -111,8 +111,8 @@ export function Hero() {
           </p>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[560px]">
-          <Globe />
+        <div className="relative mx-auto w-full max-w-[500px]">
+                    <Globe />
           <FloatingCard
             className="left-0 top-[10%] sm:-left-6"
             delay={0.6}
