@@ -2,6 +2,7 @@ import { Navbar } from "@/components/site/navbar";
 import { Hero } from "@/components/site/hero";
 import { Atmosphere } from "@/components/site/atmosphere";
 import { Workflow } from "@/components/site/workflow";
+import { Dawn, RouteDivider, WaveEdge } from "@/components/site/transitions";
 import { Features } from "@/components/site/features";
 import { Pricing } from "@/components/site/pricing";
 import { Faq } from "@/components/site/faq";
@@ -15,9 +16,13 @@ export default function Home() {
         <Hero />
         <Atmosphere />
         <Workflow />
+        <Dawn />
         <Features />
+        <RouteDivider />
         <Pricing />
+        <WaveEdge from="#ece6d6" to="#f4f1ea" />
         <Faq />
+        <Atmosphere compact />
       </main>
       <Footer />
     </>

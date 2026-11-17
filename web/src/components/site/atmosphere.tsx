@@ -26,23 +26,26 @@ const STARS = Array.from({ length: 56 }, () => {
 });
 
 /**
- * A "descent into space" between the light hero and the dark section:
+ * A "descent into space" between a light section and a dark one:
  * daylight sky -> deep blue -> night, with stars fading in and a curved,
- * glowing planet horizon.
+ * glowing planet horizon. Use `compact` for a shorter version.
  */
-export function Atmosphere() {
+export function Atmosphere({ compact = false }: { compact?: boolean }) {
   const reduce = useReducedMotion();
+  const stars = compact ? STARS.slice(0, 30) : STARS;
 
   return (
     <div
       aria-hidden
-      className="relative -mb-px h-56 overflow-hidden md:h-80"
+      className={`relative -mb-px overflow-hidden ${
+        compact ? "h-40 md:h-56" : "h-56 md:h-80"
+      }`}
       style={{
         background:
-        "linear-gradient(in oklab to bottom, #f4f1ea 0%, #e1e8f4 8%, #a3bade 28%, #4167ad 52%, #17244f 77%, #0b1020 100%)",
+          "linear-gradient(in oklab to bottom, #f4f1ea 0%, #e1e8f4 8%, #a3bade 28%, #4167ad 52%, #17244f 77%, #0b1020 100%)",
       }}
     >
-      {STARS.map((s, i) => (
+      {stars.map((s, i) => (
         <motion.span
           key={i}
           className="absolute rounded-full bg-paper"
@@ -69,7 +72,9 @@ export function Atmosphere() {
 
       {/* glowing planet horizon */}
       <div
-        className="absolute -bottom-px left-1/2 h-24 w-[170%] -translate-x-1/2 rounded-t-[100%] border-t-2 border-brass-light/80 bg-ink md:h-32"
+        className={`absolute -bottom-px left-1/2 w-[170%] -translate-x-1/2 rounded-t-[100%] border-t-2 border-brass-light/80 bg-ink ${
+          compact ? "h-16 md:h-24" : "h-24 md:h-32"
+        }`}
         style={{
           boxShadow:
             "0 -2px 28px rgba(232,185,79,0.75), 0 -16px 100px rgba(232,185,79,0.4)",

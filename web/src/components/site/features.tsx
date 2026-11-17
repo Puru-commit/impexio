@@ -27,12 +27,39 @@ const DOCS = [
   "Export Follow-up Letter",
 ];
 
-/** A card with a soft brass spotlight that follows the cursor. */
+// Gold that stays readable on light cards, and brighter gold on dark cards.
+const GOLD = "text-[#9a6f1f] dark:text-brass-light";
+
+/** Soft grid and colour glows behind the section. */
+function Backdrop() {
+  const mask =
+    "radial-gradient(ellipse 70% 55% at 50% 48%, black, transparent 78%)";
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(11,16,32,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(11,16,32,0.05) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage: mask,
+          WebkitMaskImage: mask,
+        }}
+      />
+      <div className="absolute -left-40 top-[26%] size-[480px] rounded-full bg-signal/10 blur-3xl" />
+      <div className="absolute -right-32 top-[42%] size-[420px] rounded-full bg-brass/15 blur-3xl" />
+    </div>
+  );
+}
+
+/** A card with a soft spotlight that follows the cursor. */
 function Spot({
+  tone = "light",
   className = "",
   delay = 0,
   children,
 }: {
+  tone?: "light" | "dark";
   className?: string;
   delay?: number;
   children: React.ReactNode;
@@ -48,6 +75,11 @@ function Spot({
     el.style.setProperty("--my", `${e.clientY - r.top}px`);
   };
 
+  const toneClass =
+    tone === "dark"
+      ? "dark border-white/10 bg-ink text-foreground shadow-[0_30px_60px_-30px_rgba(11,16,32,0.75)]"
+      : "border-border bg-white/80 shadow-[0_24px_48px_-30px_rgba(11,16,32,0.35)] backdrop-blur-sm";
+
   return (
     <motion.div
       ref={ref}
@@ -56,14 +88,14 @@ function Spot({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-8% 0px" }}
       transition={{ duration: 0.6, delay, ease: "easeOut" }}
-      className={`group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-colors hover:border-brass/40 ${className}`}
+      className={`group relative overflow-hidden rounded-3xl border p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brass/50 ${toneClass} ${className}`}
     >
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background:
-            "radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(232,185,79,0.14), transparent 60%)",
+            "radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(232,185,79,0.16), transparent 60%)",
         }}
       />
       <div className="relative flex h-full flex-col">{children}</div>
@@ -82,7 +114,7 @@ function CardHead({
 }) {
   return (
     <div>
-      <span className="flex size-11 items-center justify-center rounded-xl bg-secondary text-brass-light">
+      <span className="flex size-11 items-center justify-center rounded-xl bg-ink text-brass-light dark:bg-white/10">
         <Icon className="size-5" />
       </span>
       <h3 className="mt-5 text-xl font-semibold">{title}</h3>
@@ -138,17 +170,17 @@ function HsVisual() {
   return (
     <div className="mt-8 space-y-2.5">
       <div className="flex items-center gap-3 rounded-xl border border-border bg-secondary px-4 py-3 text-sm">
-        <ScanSearch className="size-4 text-brass-light" />
+        <ScanSearch className={`size-4 ${GOLD}`} />
         <span>Cotton knitted T-shirts</span>
         <motion.span
           aria-hidden
-          className="ml-0.5 h-4 w-px bg-brass-light"
+          className="ml-0.5 h-4 w-px bg-brass"
           animate={{ opacity: [1, 0, 1] }}
           transition={{ duration: 1.1, repeat: Infinity }}
         />
       </div>
       <div className="flex items-center gap-3 rounded-xl border border-brass/50 bg-brass/10 px-4 py-3">
-        <span className="font-mono text-sm text-brass-light">6109.10</span>
+        <span className={`font-mono text-sm ${GOLD}`}>6109.10</span>
         <span className="flex-1 text-sm">T-shirts, knitted, of cotton</span>
         <span className="text-xs text-muted-foreground">Verify</span>
       </div>
@@ -173,7 +205,9 @@ function CalcVisual() {
           <span>{v}</span>
         </div>
       ))}
-      <div className="mt-1 flex justify-between border-t border-border pt-2.5 text-brass-light">
+      <div
+        className={`mt-1 flex justify-between border-t border-border pt-2.5 ${GOLD}`}
+      >
         <span>Quote price</span>
         <span>1,288.00</span>
       </div>
@@ -194,7 +228,7 @@ function CrmVisual() {
           key={n}
           className="flex items-center gap-3 rounded-xl bg-secondary px-3 py-2.5 text-sm"
         >
-          <span className="flex size-7 items-center justify-center rounded-full bg-ink font-mono text-xs text-brass-light">
+          <span className="flex size-7 items-center justify-center rounded-full bg-brass-light font-mono text-xs text-ink">
             {i}
           </span>
           <span className="flex-1">{task}</span>
@@ -257,14 +291,19 @@ export function Features() {
   return (
     <section
       id="features"
-      className="dark border-t border-border bg-background text-foreground"
+      className="relative overflow-hidden bg-paper text-foreground"
     >
-      <div className="mx-auto max-w-6xl px-5 py-24 md:py-32">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-brass-light">
+      <Backdrop />
+      <div className="relative mx-auto max-w-6xl px-5 py-24 md:py-32">
+        <p className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 px-3.5 py-1.5 font-mono text-xs uppercase tracking-[0.2em] text-[#9a6f1f]">
+          <span className="size-1.5 rounded-full bg-brass" />
           Features
         </p>
-        <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight md:text-5xl">
-          Everything a trade desk needs, in one workspace.
+        <h2 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight md:text-5xl">
+          Everything a trade desk needs,{" "}
+          <span className="bg-gradient-to-r from-primary to-signal bg-clip-text text-transparent">
+            in one workspace.
+          </span>
         </h2>
         <p className="mt-5 max-w-xl text-lg text-muted-foreground">
           Documents, classification, costing and follow-ups, built to work
@@ -272,7 +311,7 @@ export function Features() {
         </p>
 
         <div className="mt-14 grid gap-5 md:grid-cols-6">
-          <Spot className="md:col-span-3">
+          <Spot tone="dark" className="md:col-span-3">
             <CardHead
               icon={FileText}
               title="Document engine"
@@ -299,7 +338,7 @@ export function Features() {
             <CalcVisual />
           </Spot>
 
-          <Spot className="md:col-span-2" delay={0.15}>
+          <Spot tone="dark" className="md:col-span-2" delay={0.15}>
             <CardHead
               icon={Users}
               title="Buyers and suppliers"
@@ -322,9 +361,11 @@ export function Features() {
           {SMALL.map((s) => (
             <li
               key={s.title}
-              className="rounded-2xl border border-border p-5 transition-colors hover:border-brass/40"
+              className="rounded-2xl border border-border bg-white/60 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass/50 hover:bg-white"
             >
-              <s.icon className="size-5 text-brass-light" />
+              <span className="flex size-9 items-center justify-center rounded-lg bg-ink text-brass-light">
+                <s.icon className="size-4" />
+              </span>
               <h3 className="mt-4 font-medium">{s.title}</h3>
               <p className="mt-1.5 text-sm text-muted-foreground">{s.text}</p>
             </li>

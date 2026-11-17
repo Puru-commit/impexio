@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Plus } from "lucide-react";
 
 const FAQS = [
@@ -31,24 +32,48 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="dark border-t border-border bg-background text-foreground"
+      className="relative overflow-hidden bg-paper text-foreground"
     >
-      <div className="mx-auto grid max-w-6xl gap-12 px-5 py-24 md:grid-cols-[1fr_1.6fr] md:py-32">
-        <div>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-brass-light">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-32 top-20 size-[420px] rounded-full bg-signal/10 blur-3xl"
+      />
+      <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-24 pt-16 md:grid-cols-[1fr_1.6fr] md:pb-32 md:pt-20">
+        <div className="self-start md:sticky md:top-32">
+          <p className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 px-3.5 py-1.5 font-mono text-xs uppercase tracking-[0.2em] text-[#9a6f1f]">
+            <span className="size-1.5 rounded-full bg-brass" />
             FAQ
           </p>
-          <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-5xl">
-            Questions, answered plainly.
+          <h2 className="mt-5 text-3xl font-semibold leading-tight md:text-5xl">
+            Questions,{" "}
+            <span className="bg-gradient-to-r from-primary to-signal bg-clip-text text-transparent">
+              answered plainly.
+            </span>
           </h2>
+          <p className="mt-5 max-w-sm text-muted-foreground">
+            Cannot find what you are looking for? Send us a message and we will
+            help.
+          </p>
+          <Link
+            href="/contact"
+            className="mt-6 inline-block rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper transition-all hover:bg-primary active:scale-[0.98]"
+          >
+            Contact us
+          </Link>
         </div>
 
-        <div className="divide-y divide-border border-y border-border">
-          {FAQS.map((item) => (
-            <details key={item.q} className="group py-5">
+        <div className="space-y-3">
+          {FAQS.map((item, i) => (
+            <details
+              key={item.q}
+              open={i === 0}
+              className="group rounded-2xl border border-border bg-white/70 px-6 py-5 backdrop-blur-sm transition-all duration-300 open:bg-white open:shadow-[0_20px_40px_-28px_rgba(11,16,32,0.35)] hover:border-brass/50"
+            >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-lg font-medium [&::-webkit-details-marker]:hidden">
                 {item.q}
-                <Plus className="size-5 shrink-0 text-brass-light transition-transform duration-300 group-open:rotate-45" />
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-ink text-brass-light transition-transform duration-300 group-open:rotate-45">
+                  <Plus className="size-4" />
+                </span>
               </summary>
               <p className="mt-3 max-w-2xl text-muted-foreground">{item.a}</p>
             </details>
