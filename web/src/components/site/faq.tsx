@@ -19,8 +19,8 @@ const FAQS = [
     a: "The monthly plan is ₹249 per month, paid through Razorpay. You can manage or cancel your subscription from your account. Our Refund Policy explains the details.",
   },
   {
-    q: "Which documents can I create?",
-    a: "Proforma Invoice, Commercial Invoice, Packing List, Export Quotation, Export Costing Sheet, Purchase Order, Import Inquiry, Buyer Introduction Letter, Supplier Inquiry Letter and Export Follow-up Letter.",
+    q: "Which tools and documents are included?",
+    a: "Export: CBM Calculation, Container Expenses FOB, Export Costing, Export Costing 2, Export Data Filter Format, Export Proforma Invoice, Export Quotation and Export Sample Courier Invoice. Import: Import Letter for Inquiry and Import Purchase Order. EXIM Marketing: Export Follow Up Mail and Export Marketing (Buyers Intro Letter).",
   },
   {
     q: "Can other users see my data?",

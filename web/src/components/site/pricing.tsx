@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Check } from "lucide-react";
 
 const PAID_FEATURES = [
-  "10 document types with print-ready PDF export",
+  "12 export, import and marketing tools with print-ready PDF export",
   "AI-assisted HS Code suggestions with reasoning",
   "Trade calculators: costing, landed cost, margin, currency, units",
   "Buyer and supplier records with follow-up reminders",

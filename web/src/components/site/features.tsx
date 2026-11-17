@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
+import { TOOL_GROUPS } from "@/lib/tools";
 import { motion, useReducedMotion } from "motion/react";
 import {
   BarChart3,
@@ -315,7 +317,7 @@ export function Features() {
             <CardHead
               icon={FileText}
               title="Document engine"
-              text="Ten document types from invoices to follow-up letters. Save drafts, preview, duplicate, and download print-ready PDFs."
+              text="Twelve export, import and marketing tools, from costing sheets to buyer letters. Save drafts, preview, duplicate, and download print-ready PDFs."
             />
             <Marquee />
           </Spot>
@@ -355,6 +357,38 @@ export function Features() {
             />
             <ReportVisual />
           </Spot>
+        </div>
+
+        <div className="mt-5 grid gap-5 md:grid-cols-[1fr_1.6fr]">
+          <Spot tone="dark" delay={0.05}>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-brass-light">
+              EXIM Marketing
+            </p>
+            <h3 className="mt-3 text-2xl font-semibold">
+              Reach buyers and keep the conversation going.
+            </h3>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Ready letters to introduce your company and follow up on every
+              enquiry.
+            </p>
+          </Spot>
+          {TOOL_GROUPS.filter((g) => g.id === "exim-marketing").map((g) => (
+            <div key={g.id} className="grid gap-5 sm:grid-cols-2">
+              {g.tools.map((t) => (
+                <Link
+                  key={t.slug}
+                  href={`/tools/${t.slug}`}
+                  className="group rounded-3xl border border-border bg-white/80 p-6 shadow-[0_24px_48px_-34px_rgba(11,16,32,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-brass/50 hover:bg-white"
+                >
+                  <span className="flex size-11 items-center justify-center rounded-xl bg-ink text-brass-light transition-transform duration-300 group-hover:-rotate-6">
+                    <t.icon className="size-5" />
+                  </span>
+                  <h3 className="mt-5 text-lg font-semibold leading-snug">{t.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{t.text}</p>
+                </Link>
+              ))}
+            </div>
+          ))}
         </div>
 
         <ul className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
