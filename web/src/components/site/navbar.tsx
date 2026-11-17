@@ -6,18 +6,18 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const LINKS = [
-  { label: "Features", href: "#features" },
-  { label: "Import", href: "#import" },
-  { label: "Export", href: "#export" },
-  { label: "HS Code AI", href: "#hs-code" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Features", href: "/features" },
+  { label: "Import", href: "/#import" },
+  { label: "Export", href: "/#export" },
+  { label: "HS Code AI", href: "/#hs-code" },
+  { label: "Pricing", href: "/#pricing" },
 ];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/95 backdrop-blur-md">
       <nav
         className="mx-auto flex h-24 max-w-6xl items-center justify-between px-5 lg:grid lg:h-[104px] lg:grid-cols-[1fr_auto_1fr]"
         aria-label="Main"
