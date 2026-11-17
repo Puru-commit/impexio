@@ -10,6 +10,15 @@ import {
   Megaphone,
   PackageCheck,
   Receipt,
+  SearchCheck,
+  Factory,
+  FileCheck2,
+  Scale,
+  Ship,
+  CreditCard,
+  TrendingUp,
+  Landmark,
+  Settings2,
   ShoppingCart,
   type LucideIcon,
 } from "lucide-react";
@@ -75,3 +84,25 @@ export function findTool(slug: string) {
   }
   return null;
 }
+
+export type Agent = {
+  n: number;
+  title: string;
+  text: string;
+  icon: LucideIcon;
+  color: string; // accent colour
+};
+
+// Planned AI agents, shown as "coming soon". Wording is kept honest on purpose.
+export const UPCOMING_AGENTS: Agent[] = [
+  { n: 1, title: "Global Buyer Finder AI", text: "Find international buyers and importers for your products.", icon: SearchCheck, color: "#3b82f6" },
+  { n: 2, title: "China Supplier Finder AI", text: "Discover manufacturers and suppliers in China.", icon: Factory, color: "#ef4444" },
+  { n: 3, title: "Export-Import Documentation AI", text: "Auto-generate and check export-import documents.", icon: FileCheck2, color: "#a855f7" },
+  { n: 4, title: "HS Code & Customs Duty AI", text: "Get HS code suggestions and duty estimates.", icon: Scale, color: "#f97316" },
+  { n: 5, title: "Import Landed Cost Calculator AI", text: "Calculate the total landed cost of an import.", icon: Calculator, color: "#14b8a6" },
+  { n: 6, title: "Freight & Logistics Finder AI", text: "Compare shipping options and logistics providers.", icon: Ship, color: "#ec4899" },
+  { n: 7, title: "Export Payment Tracking AI", text: "Track payments and manage receivables.", icon: CreditCard, color: "#22c55e" },
+  { n: 8, title: "Global Market Research AI", text: "Get market insights and spot new opportunities.", icon: TrendingUp, color: "#6366f1" },
+  { n: 9, title: "DGFT, GST & Compliance Assistant AI", text: "Understand the rules that apply to your trade.", icon: Landmark, color: "#eab308" },
+  { n: 10, title: "Export-Import Business Management AI", text: "Manage enquiries, quotations and shipments.", icon: Settings2, color: "#8b5cf6" },
+];

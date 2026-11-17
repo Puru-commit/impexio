@@ -49,7 +49,7 @@ export function Navbar() {
         <div className="hidden items-center gap-3 justify-self-end lg:flex">
           <Link
             href="/login"
-            className="px-3 py-2 text-sm font-medium text-foreground hover:text-primary"
+            className="rounded-full border border-ink/20 bg-white/60 px-5 py-2.5 text-sm font-medium text-foreground transition-all hover:border-brass/60 hover:bg-white active:scale-[0.98]"
           >
             Log in
           </Link>
