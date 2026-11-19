@@ -80,7 +80,7 @@ export default function Page() {
               href="/register"
               className="rounded-full bg-brass-light px-6 py-3 text-sm font-medium text-ink transition-all hover:bg-paper active:scale-[0.98]"
             >
-              Start free
+              Start free and ask anything husstle free with our new imp AI
             </Link>
             <Link
               href="/contact"
