@@ -27,7 +27,7 @@ async function DashboardContent() {
   }
 
   const first = session.user.name?.split(" ")[0] ?? "trader";
-  const isPaid = plan?.status === "active";
+  const isPaid = !!plan?.paid;
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-10 md:py-14">
@@ -60,6 +60,10 @@ async function DashboardContent() {
                 : `${plan.freeDocsUsed} of ${FREE_DOCUMENT_LIMIT} free document used.`
               : "Plan details are not available right now."}
           </p>
+          <Link href="/app/billing" className="relative mt-5 inline-flex items-center gap-2 rounded-full bg-brass-light px-5 py-2 text-sm font-medium text-ink transition-all hover:bg-white active:scale-[0.98]">
+            {isPaid ? "Plan & billing" : "Upgrade for ₹249 / month"}
+            <ArrowRight className="size-4" />
+          </Link>
           {plan && !isPaid && (
             <div className="relative mt-5 h-2 overflow-hidden rounded-full bg-white/10">
               <div

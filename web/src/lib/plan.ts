@@ -7,6 +7,8 @@ export type Plan = {
   status: "free" | "active" | "cancelled" | "expired";
   freeDocsUsed: number;
   periodEnd: Date | null;
+  /** True while a paid month is still running. */
+  paid: boolean;
   /** True when the user may generate another document right now. */
   canGenerate: boolean;
 };
@@ -37,6 +39,7 @@ export async function getPlan(userId: number): Promise<Plan> {
     status,
     freeDocsUsed,
     periodEnd,
+    paid: paidAndCurrent,
     canGenerate: paidAndCurrent || freeDocsUsed < FREE_DOCUMENT_LIMIT,
   };
 }

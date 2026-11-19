@@ -77,7 +77,7 @@ async function Content({ params }: { params: Promise<{ slug: string }> }) {
 
       {plan && (
         <p className="mt-6 inline-block rounded-full border border-border bg-white/70 px-4 py-1.5 text-sm">
-          {plan.status === "active" ? "Monthly plan: no document limit." : plan.canGenerate ? `Free trial: ${FREE_DOCUMENT_LIMIT - plan.freeDocsUsed} free document left.` : "Your free document is used. Upgrade to continue."}
+          {plan.paid ? "Monthly plan: no document limit." : plan.canGenerate ? `Free trial: ${FREE_DOCUMENT_LIMIT - plan.freeDocsUsed} free document left.` : <>Your free document is used. <Link href="/app/billing" className="font-medium underline underline-offset-4">Upgrade</Link> to continue.</>}
           {!def.counts && " This tool is free to use."}
         </p>
       )}

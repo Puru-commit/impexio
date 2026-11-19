@@ -266,7 +266,7 @@ export function DocEditor({ slug, docId, initial, status, refreshMaster, limitRe
         {(msg || (limitReached && !locked)) && (
           <p role="status" className={`mt-2 flex items-center gap-2 text-sm ${msg?.ok ? "text-[#2f7a4a]" : "text-vermilion"}`}>
             {msg?.ok ? <CheckCircle2 className="size-4" /> : <AlertTriangle className="size-4" />}
-            {msg?.text ?? "Your free document is used. You can still save drafts, but Finalise needs the monthly plan."}
+            {msg?.text ?? <>Your free document is used. You can still save drafts, but Finalise needs the monthly plan. <Link href="/app/billing" className="font-medium underline underline-offset-4">Upgrade</Link></>}
           </p>
         )}
       </div>

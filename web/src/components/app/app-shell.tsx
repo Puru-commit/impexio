@@ -23,7 +23,6 @@ const SOON = [
   { label: "HS Code Finder", icon: ScanSearch },
   { label: "Buyers & Suppliers", icon: Users },
   { label: "Reports", icon: BarChart3 },
-  { label: "Subscription", icon: CreditCard },
 ];
 
 function Nav({ onNavigate }: { onNavigate?: () => void }) {
@@ -53,6 +52,7 @@ function Nav({ onNavigate }: { onNavigate?: () => void }) {
       <div className="space-y-1">
         {link("/app", "Dashboard", LayoutDashboard)}
         {link("/app/company", "Company profile", Building2)}
+        {link("/app/billing", "Plan & billing", CreditCard)}
       </div>
 
       {TOOL_GROUPS.map((g) => (
