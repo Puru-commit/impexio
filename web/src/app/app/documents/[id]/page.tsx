@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { notFound } from "next/navigation";
-import { AlertTriangle, ArrowLeft } from "lucide-react";
-import { ProformaEditor } from "@/components/app/proforma-editor";
+import { AlertTriangle } from "lucide-react";
+import { DocEditor } from "@/components/app/doc-editor";
+import { emptyCompany, getCompany } from "@/lib/company";
+import { padData } from "@/lib/doc/core";
+import { TOOL_DEFS } from "@/lib/doc/defs";
 import { getDocument, type DocRow } from "@/lib/documents";
 import { getPlan } from "@/lib/plan";
-import { sanitizeProforma } from "@/lib/proforma";
 import { currentUserId } from "@/lib/session";
 
 export const metadata: Metadata = { title: "Document — IMPEXIO" };
@@ -23,44 +24,35 @@ async function Content({ params }: { params: Promise<{ id: string }> }) {
 
   let doc: DocRow | null = null;
   let limitReached = false;
+  let master = emptyCompany();
   try {
     doc = await getDocument(userId, docId);
-    limitReached = !(await getPlan(userId)).canGenerate;
+    if (doc) {
+      master = await getCompany(userId);
+      limitReached = TOOL_DEFS[doc.docType].counts && !(await getPlan(userId)).canGenerate;
+    }
   } catch {
     return (
       <div className="mx-auto max-w-3xl px-5 py-14">
-        <div className="flex items-start gap-3 rounded-2xl border border-vermilion/40 bg-vermilion/10 p-4 text-sm">
-          <AlertTriangle className="mt-0.5 size-4 shrink-0 text-vermilion" />
-          Could not reach the database. Start Laragon and refresh this page.
-        </div>
+        <div className="flex items-start gap-3 rounded-2xl border border-vermilion/40 bg-vermilion/10 p-4 text-sm"><AlertTriangle className="mt-0.5 size-4 shrink-0 text-vermilion" /> Could not reach the database. Start Laragon and refresh this page.</div>
       </div>
     );
   }
-  if (!doc || doc.docType !== "export-proforma-invoice") notFound();
+  if (!doc) notFound();
+  const def = TOOL_DEFS[doc.docType];
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-10 md:py-14">
-      <Link href={`/app/tools/${doc.docType}`} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-        <ArrowLeft className="size-4" />
-        Export Proforma Invoice
-      </Link>
-      <div className="mt-4 flex flex-wrap items-center gap-3">
-        <h1 className="text-3xl font-semibold md:text-4xl">{doc.title}</h1>
-        <span className={`rounded-full border px-3 py-0.5 font-mono text-xs uppercase tracking-wider ${doc.status === "final" ? "border-[#2f7a4a]/40 text-[#2f7a4a]" : "border-border text-muted-foreground"}`}>
-          {doc.status}
-        </span>
-      </div>
-      <div className="mt-8">
-        <ProformaEditor docId={doc.id} initial={sanitizeProforma(doc.data)} status={doc.status} limitReached={limitReached && doc.status !== "final"} />
-      </div>
+    <div className="mx-auto max-w-[1400px] px-5 pb-16 pt-6 md:pt-8">
+      <h1 className="mb-4 text-2xl font-semibold md:text-3xl">{doc.title}</h1>
+      <DocEditor
+        key={`${doc.id}-${doc.status}-${doc.updatedAt.valueOf()}`}
+        slug={doc.docType} docId={doc.id} status={doc.status} limitReached={limitReached && doc.status === "draft"}
+        backHref={`/app/tools/${doc.docType}`} initial={padData(def, doc.data, master)}
+      />
     </div>
   );
 }
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
-  return (
-    <Suspense fallback={null}>
-      <Content params={params} />
-    </Suspense>
-  );
+  return <Suspense fallback={null}><Content params={params} /></Suspense>;
 }

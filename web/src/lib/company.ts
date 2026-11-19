@@ -4,6 +4,10 @@ import { db } from "@/lib/db";
 // formName, database column, max length
 export const COMPANY_FIELDS = [
   ["companyName", "company_name", 255],
+  ["branch", "branch", 120],
+  ["location", "location", 120],
+  ["dayBook", "day_book", 80],
+  ["preparedBy", "prepared_by", 120],
   ["address", "address", 500],
   ["city", "city", 120],
   ["state", "state", 120],
@@ -20,6 +24,10 @@ export const COMPANY_FIELDS = [
   ["bankAccountNo", "bank_account_no", 60],
   ["bankIfsc", "bank_ifsc", 30],
   ["bankSwift", "bank_swift", 30],
+  ["defaultCurrency", "default_currency", 3],
+  ["defaultIncoterm", "default_incoterm", 4],
+  ["defaultPortLoading", "default_port_loading", 120],
+  ["defaultPaymentTerms", "default_payment_terms", 300],
 ] as const;
 
 export type CompanyValues = Record<(typeof COMPANY_FIELDS)[number][0], string>;
@@ -53,7 +61,7 @@ export async function saveCompany(userId: number, v: CompanyValues) {
 /** Share of the important fields that are filled in, for the dashboard. */
 export function companyCompleteness(v: CompanyValues) {
   const key: (keyof CompanyValues)[] = [
-    "companyName", "address", "country", "phone", "email", "bankName", "bankAccountNo",
+    "companyName", "branch", "location", "address", "country", "phone", "email", "bankName", "bankAccountNo", "preparedBy",
   ];
   const done = key.filter((k) => v[k].trim()).length;
   return Math.round((done / key.length) * 100);

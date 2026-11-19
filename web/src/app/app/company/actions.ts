@@ -28,6 +28,8 @@ export async function saveCompanyAction(
   values.gstin = values.gstin.toUpperCase();
   values.pan = values.pan.toUpperCase();
   values.bankIfsc = values.bankIfsc.toUpperCase();
+  values.defaultCurrency = values.defaultCurrency.toUpperCase();
+  values.defaultIncoterm = values.defaultIncoterm.toUpperCase();
 
   try {
     await saveCompany(userId, values);

@@ -47,8 +47,15 @@ export function CompanyForm({ initial }: { initial: CompanyValues }) {
 
   return (
     <form action={action} className="space-y-5">
-      <Group title="Business">
+      <Group title="Document header" note="Printed at the top of every document. Fill this once and it is used everywhere.">
         <Field wide name="companyName" label="Company name" defaultValue={f("companyName")} />
+        <Field name="branch" label="Branch" defaultValue={f("branch")} placeholder="e.g. Head Office" />
+        <Field name="location" label="Location" defaultValue={f("location")} placeholder="e.g. Surat" />
+        <Field name="dayBook" label="Day book" defaultValue={f("dayBook")} />
+        <Field name="preparedBy" label="Your name (for letters)" defaultValue={f("preparedBy")} />
+      </Group>
+
+      <Group title="Business address">
         <Field wide name="address" label="Address" defaultValue={f("address")} />
         <Field name="city" label="City" defaultValue={f("city")} />
         <Field name="state" label="State" defaultValue={f("state")} />
@@ -74,6 +81,13 @@ export function CompanyForm({ initial }: { initial: CompanyValues }) {
         <Field name="bankAccountNo" label="Account number" defaultValue={f("bankAccountNo")} />
         <Field name="bankIfsc" label="IFSC code" defaultValue={f("bankIfsc")} />
         <Field name="bankSwift" label="SWIFT code" defaultValue={f("bankSwift")} />
+      </Group>
+
+      <Group title="Your usual choices" note="New documents start with these filled in. You can still change them on any document.">
+        <Field name="defaultCurrency" label="Currency" defaultValue={f("defaultCurrency")} placeholder="USD" />
+        <Field name="defaultIncoterm" label="Incoterm" defaultValue={f("defaultIncoterm")} placeholder="FOB" />
+        <Field wide name="defaultPortLoading" label="Port of loading" defaultValue={f("defaultPortLoading")} placeholder="e.g. Mundra" />
+        <Field wide name="defaultPaymentTerms" label="Payment terms" defaultValue={f("defaultPaymentTerms")} placeholder="e.g. 30% advance, 70% against BL copy" />
       </Group>
 
       <div className="flex flex-wrap items-center gap-4">
