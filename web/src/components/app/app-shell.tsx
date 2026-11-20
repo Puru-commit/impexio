@@ -12,6 +12,7 @@ import {
   LogOut,
   Menu,
   ScanSearch,
+  ShieldCheck,
   Users,
   X,
 } from "lucide-react";
@@ -25,7 +26,7 @@ const SOON = [
   { label: "Reports", icon: BarChart3 },
 ];
 
-function Nav({ onNavigate }: { onNavigate?: () => void }) {
+function Nav({ onNavigate, isAdmin }: { onNavigate?: () => void; isAdmin?: boolean }) {
   const pathname = usePathname();
   const link = (href: string, label: string, Icon?: React.ElementType) => {
     const active = pathname === href;
@@ -53,6 +54,7 @@ function Nav({ onNavigate }: { onNavigate?: () => void }) {
         {link("/app", "Dashboard", LayoutDashboard)}
         {link("/app/company", "Company profile", Building2)}
         {link("/app/billing", "Plan & billing", CreditCard)}
+        {isAdmin && link("/app/admin", "Admin panel", ShieldCheck)}
       </div>
 
       {TOOL_GROUPS.map((g) => (
@@ -138,9 +140,11 @@ function Logo() {
 export function AppShell({
   user,
   logout,
+  isAdmin,
   children,
 }: {
   user: User;
+  isAdmin?: boolean;
   logout: () => Promise<void>;
   children: React.ReactNode;
 }) {
@@ -154,7 +158,7 @@ export function AppShell({
           <Logo />
         </div>
         <div className="flex-1 overflow-y-auto px-3 pb-4">
-          <Nav />
+          <Nav isAdmin={isAdmin} />
         </div>
         <UserBox user={user} logout={logout} />
       </aside>
@@ -186,7 +190,7 @@ export function AppShell({
             </button>
           </div>
           <div className="flex-1 overflow-y-auto px-3 pb-4">
-            <Nav onNavigate={() => setOpen(false)} />
+            <Nav isAdmin={isAdmin} onNavigate={() => setOpen(false)} />
           </div>
           <UserBox user={user} logout={logout} />
         </div>
