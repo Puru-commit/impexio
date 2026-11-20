@@ -8,7 +8,7 @@ const COLUMNS = [
       { label: "Features", href: "#features" },
       { label: "Import", href: "#import" },
       { label: "Export", href: "#export" },
-      { label: "HS Code AI", href: "#hs-code" },
+      { label: "HS Code Finder", href: "#hs-code" },
       { label: "Pricing", href: "#pricing" },
     ],
   },

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, ScanSearch } from "lucide-react";
+import { HsSearch } from "@/components/app/hs-search";
 import { Reveal } from "@/components/site/reveal";
 import { TOOL_GROUPS, type Tool } from "@/lib/tools";
 
@@ -176,17 +176,7 @@ export function ImportSection() {
 
 /* --------------------------------------------------------------- HS Code */
 
-const EXAMPLES = [
-  { product: "Cotton knitted T-shirts", code: "6109.10", desc: "T-shirts, singlets and similar, knitted, of cotton" },
-  { product: "Green coffee beans", code: "0901.11", desc: "Coffee, not roasted, not decaffeinated" },
-  { product: "Smartphone", code: "8517.13", desc: "Smartphones" },
-  { product: "Milled rice", code: "1006.30", desc: "Rice, semi-milled or wholly milled" },
-];
-
 export function HsCodeSection() {
-  const [i, setI] = useState(0);
-  const ex = EXAMPLES[i];
-
   return (
     <section
       id="hs-code"
@@ -200,7 +190,7 @@ export function HsCodeSection() {
         <Reveal>
           <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 font-mono text-xs uppercase tracking-[0.2em] text-brass-light">
             <ScanSearch className="size-3.5" />
-            HS Code AI
+            HS Code Finder
           </p>
           <h2 className="mt-5 text-3xl font-semibold leading-tight md:text-5xl">
             Find the right HS code{" "}
@@ -209,69 +199,27 @@ export function HsCodeSection() {
             </span>
           </h2>
           <p className="mt-5 max-w-md text-lg text-muted-foreground">
-            Describe your product in plain words. IMPEXIO suggests possible HS
-            codes with the reason, so you can check them before you use them.
+            Type your product name or a code. IMPEXIO searches a full HS code
+            list and shows the matching codes and where each one sits in the
+            list, so you can check them before you use them.
           </p>
           <p className="mt-4 max-w-md text-sm text-muted-foreground">
-            Suggestions are guidance, not a legal classification. Always verify
+            Search results are guidance, not a legal classification. Always verify
             the final code with the official tariff or your customs broker.
           </p>
           <Link
             href="/register"
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-brass-light px-6 py-3 text-sm font-medium text-ink transition-all hover:bg-paper active:scale-[0.98]"
           >
-            Try it free
+            Create a free account
             <ArrowRight className="size-4" />
           </Link>
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)] backdrop-blur-sm">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Try an example
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {EXAMPLES.map((e, n) => (
-                <button
-                  key={e.product}
-                  type="button"
-                  onClick={() => setI(n)}
-                  aria-pressed={n === i}
-                  className={`rounded-full border px-3.5 py-1.5 text-sm transition-all ${
-                    n === i
-                      ? "border-brass-light bg-brass-light text-ink"
-                      : "border-white/15 text-foreground/80 hover:border-brass/60"
-                  }`}
-                >
-                  {e.product}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-6 flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm">
-              <ScanSearch className="size-4 text-brass-light" />
-              {ex.product}
-            </div>
-
-            <div
-              key={ex.code}
-              className="mt-3 animate-in fade-in slide-in-from-bottom-2 rounded-xl border border-brass/50 bg-brass/10 p-4 duration-500"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <span className="font-mono text-2xl text-brass-light">
-                  {ex.code}
-                </span>
-                <span className="rounded-full border border-white/15 px-2.5 py-0.5 text-xs text-muted-foreground">
-                  Verify before use
-                </span>
-              </div>
-              <p className="mt-2 text-sm">{ex.desc}</p>
-            </div>
-
-            <p className="mt-4 text-xs text-muted-foreground">
-              Fixed examples to show the idea. The live AI finder comes with
-              your account.
-            </p>
+          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)] backdrop-blur-sm md:p-6">
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Try it now: live search</p>
+            <HsSearch publicMode dark />
           </div>
         </Reveal>
       </div>
