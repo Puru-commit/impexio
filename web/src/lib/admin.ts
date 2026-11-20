@@ -15,37 +15,34 @@ const one = async (sql: string, params: unknown[] = []) => {
 };
 
 export async function getStats() {
-  const [u] = await one("SELECT COUNT(*) AS total, SUM(created_at >= NOW() - INTERVAL 7 DAY) AS week FROM users");
+  const [u] = await one("SELECT COUNT(*) AS total, COALESCE(SUM(created_at >= NOW() - INTERVAL 7 DAY),0) AS week FROM users");
   const [paid] = await one("SELECT COUNT(*) AS n FROM subscriptions WHERE status IN ('active','cancelled') AND current_period_end > NOW()");
-  const [rev] = await one("SELECT COALESCE(SUM(amount_paise),0) AS total, COALESCE(SUM(CASE WHEN paid_at >= NOW() - INTERVAL 30 DAY THEN amount_paise END),0) AS month, COUNT(*) AS n FROM payments WHERE status = 'paid'");
-  const docStatus = await one("SELECT status, COUNT(*) AS n FROM documents GROUP BY status");
-  const byTool = await one("SELECT doc_type, COUNT(*) AS n FROM documents GROUP BY doc_type ORDER BY n DESC");
+  const [soon] = await one("SELECT COUNT(*) AS n FROM subscriptions WHERE status IN ('active','cancelled') AND current_period_end > NOW() AND current_period_end <= NOW() + INTERVAL 7 DAY");
+  const [rev] = await one("SELECT COALESCE(SUM(amount_paise),0) AS total, COALESCE(SUM(CASE WHEN paid_at >= NOW() - INTERVAL 30 DAY THEN amount_paise END),0) AS month FROM payments WHERE status = 'paid'");
   const signups = await one("SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS d, COUNT(*) AS n FROM users WHERE created_at >= CURDATE() - INTERVAL 13 DAY GROUP BY d");
   // last 14 days (India time), including days with zero signups
   const last14 = Array.from({ length: 14 }, (_, i) => {
     const d = new Date(Date.now() + 5.5 * 3_600_000 - (13 - i) * 86_400_000).toISOString().slice(0, 10);
     return { d, n: Number(signups.find((r) => r.d === d)?.n ?? 0) };
   });
-  const count = (s: string) => Number(docStatus.find((r) => r.status === s)?.n ?? 0);
+  const users = Number(u.total ?? 0);
+  const paidUsers = Number(paid.n ?? 0);
   return {
-    users: Number(u.total ?? 0), usersWeek: Number(u.week ?? 0), paidUsers: Number(paid.n ?? 0),
-    revenue: Number(rev.total) / 100, revenueMonth: Number(rev.month) / 100, payments: Number(rev.n),
-    docs: { draft: count("draft"), final: count("final"), cancelled: count("cancelled") },
-    byTool: byTool.map((r) => ({ slug: String(r.doc_type), n: Number(r.n) })),
-    signups: last14,
+    users, usersWeek: Number(u.week ?? 0), paidUsers, freeUsers: Math.max(0, users - paidUsers), endingSoon: Number(soon.n ?? 0),
+    revenue: Number(rev.total) / 100, revenueMonth: Number(rev.month) / 100, signups: last14,
   };
 }
 
 export type AdminUser = {
   id: number; name: string; email: string; role: string; joined: string; lastLogin: string;
-  plan: string; freeUsed: number; paidUntil: string; docs: number;
+  company: string; phone: string; plan: string; freeUsed: number; paidUntil: string; endingSoon: boolean; docs: number;
 };
 
 export async function listUsers(): Promise<AdminUser[]> {
   const rows = await one(
-    `SELECT u.id, u.name, u.email, u.role, u.created_at, u.last_login_at, s.status, s.free_docs_used, s.current_period_end,
+    `SELECT u.id, u.name, u.email, u.role, u.created_at, u.last_login_at, s.status, s.free_docs_used, s.current_period_end, c.company_name, c.phone,
             (SELECT COUNT(*) FROM documents d WHERE d.user_id = u.id) AS docs
-     FROM users u LEFT JOIN subscriptions s ON s.user_id = u.id ORDER BY u.id DESC LIMIT 500`,
+     FROM users u LEFT JOIN subscriptions s ON s.user_id = u.id LEFT JOIN companies c ON c.user_id = u.id ORDER BY u.id DESC LIMIT 500`,
   );
   const now = Date.now();
   return rows.map((r) => {
@@ -54,7 +51,7 @@ export async function listUsers(): Promise<AdminUser[]> {
     return {
       id: Number(r.id), name: String(r.name ?? ""), email: String(r.email), role: String(r.role),
       joined: new Date(r.created_at).toISOString(), lastLogin: r.last_login_at ? new Date(r.last_login_at).toISOString() : "",
-      plan: paid ? "paid" : "free", freeUsed: Number(r.free_docs_used ?? 0), paidUntil: paid && end ? end.toISOString() : "", docs: Number(r.docs ?? 0),
+      company: String(r.company_name ?? ""), phone: String(r.phone ?? ""), plan: paid ? "paid" : "free", freeUsed: Number(r.free_docs_used ?? 0), paidUntil: paid && end ? end.toISOString() : "", endingSoon: paid && !!end && end.getTime() <= now + 7 * 86_400_000, docs: Number(r.docs ?? 0),
     };
   });
 }
