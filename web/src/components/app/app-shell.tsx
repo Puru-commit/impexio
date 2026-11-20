@@ -22,7 +22,6 @@ import { TOOL_GROUPS } from "@/lib/tools";
 type User = { name?: string | null; email?: string | null; image?: string | null };
 
 const SOON = [
-  { label: "HS Code Finder", icon: ScanSearch },
   { label: "Buyers & Suppliers", icon: Users },
   { label: "Reports", icon: BarChart3 },
 ];
@@ -87,6 +86,7 @@ function Nav({ onNavigate, isAdmin }: { onNavigate?: () => void; isAdmin?: boole
         {link("/app", "Dashboard", LayoutDashboard)}
         {link("/app/company", "Company profile", Building2)}
         {link("/app/billing", "Plan & billing", CreditCard)}
+        {link("/app/hs-code-finder", "HS Code Finder", ScanSearch)}
         {isAdmin && link("/app/admin", "Admin panel", ShieldCheck)}
       </div>
 

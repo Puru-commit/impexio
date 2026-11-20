@@ -5,6 +5,7 @@ import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { AlertTriangle, ArrowRight, Ban, CheckCircle2, Copy, Download, Eye, FileEdit, Lock, Plus, RefreshCw, Save, Trash2, Wand2 } from "lucide-react";
 import { Paper } from "@/components/app/doc-paper";
+import { HsSearch } from "@/components/app/hs-search";
 import { TOOL_DEFS, effectiveLetter } from "@/lib/doc/defs";
 import {
   blankLine, buildView, computeMatrix, fmt, isUsed, readiness, rowAmount, showCell,
@@ -65,6 +66,7 @@ export function DocEditor({ slug, docId, initial, status, refreshMaster, limitRe
   const [pending, start] = useTransition();
   const [tab, setTab] = useState<"fill" | "preview">("fill");
   const [tried, setTried] = useState(false);
+  const [hsFor, setHsFor] = useState<number | null>(null);
   const locked = status === "final" || status === "cancelled";
   void refreshMaster;
 
@@ -163,7 +165,9 @@ export function DocEditor({ slug, docId, initial, status, refreshMaster, limitRe
               <div className="grid gap-x-3 gap-y-2.5 sm:grid-cols-2 lg:grid-cols-4">
                 {t.cols.slice(t.fixed ? 1 : 0).map((c) => (
                   <label key={c.k} className={`block ${SPAN[c.span ?? 1]}`}>
-                    <span className="text-[11px] font-medium text-ink/70">{c.label}</span>
+                    <span className="flex items-center justify-between text-[11px] font-medium text-ink/70">{c.label}
+                      {c.k === "hs" && !locked && <button type="button" onClick={() => setHsFor(i)} className="rounded-full border border-brass/60 px-2 py-0.5 text-[10px] font-medium text-[#9a6f1f] hover:bg-brass/10">Find code</button>}
+                    </span>
                     <div className="mt-0.5"><Control f={c} value={r[c.k] ?? ""} onChange={(v) => setLine(i, c.k, v)} disabled={locked} /></div>
                   </label>
                 ))}
@@ -270,6 +274,15 @@ export function DocEditor({ slug, docId, initial, status, refreshMaster, limitRe
           </p>
         )}
       </div>
+
+      {hsFor !== null && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-ink/60 p-4 pt-[8vh]" onClick={() => setHsFor(null)} onKeyDown={(e) => e.key === "Escape" && setHsFor(null)}>
+          <div className="w-full max-w-2xl rounded-3xl bg-paper p-5 shadow-2xl md:p-6" role="dialog" aria-label="Find HS code" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-3 flex items-center justify-between"><h2 className="text-lg font-semibold">Find HS code</h2><button type="button" onClick={() => setHsFor(null)} className="rounded-full border border-border bg-white px-3 py-1 text-sm">Close</button></div>
+            <HsSearch autoFocus onPick={(code) => { setLine(hsFor, "hs", code); setHsFor(null); }} />
+          </div>
+        </div>
+      )}
 
       {/* mobile tabs */}
       <div className="mt-4 flex gap-2 xl:hidden">
