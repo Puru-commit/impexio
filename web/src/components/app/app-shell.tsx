@@ -12,6 +12,7 @@ import {
   LogOut,
   Menu,
   ScanSearch,
+  ArrowLeft,
   ShieldCheck,
   Users,
   X,
@@ -47,6 +48,38 @@ function Nav({ onNavigate, isAdmin }: { onNavigate?: () => void; isAdmin?: boole
       </Link>
     );
   };
+
+  // On the admin pages the menu shows only admin things, not the user tools.
+  if (pathname.startsWith("/app/admin")) {
+    const adminLink = (href: string, label: string, Icon: React.ElementType) => {
+      const active = href === "/app/admin" ? pathname === href : pathname.startsWith(href);
+      return (
+        <Link
+          key={href}
+          href={href}
+          onClick={onNavigate}
+          aria-current={active ? "page" : undefined}
+          className={`flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm transition-colors ${active ? "bg-brass-light/15 font-medium text-brass-light" : "text-foreground/70 hover:bg-white/5 hover:text-foreground"}`}
+        >
+          <Icon className="size-4 shrink-0" />
+          <span className="truncate">{label}</span>
+        </Link>
+      );
+    };
+    return (
+      <nav aria-label="Admin" className="space-y-6 text-sm">
+        <div>
+          <p className="px-3 pb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Admin</p>
+          <div className="space-y-0.5">
+            {adminLink("/app/admin", "Overview", LayoutDashboard)}
+            {adminLink("/app/admin/customers", "Customers", Users)}
+            {adminLink("/app/admin/payments", "Payments", CreditCard)}
+          </div>
+        </div>
+        <div className="space-y-0.5">{link("/app", "Back to my tools", ArrowLeft)}</div>
+      </nav>
+    );
+  }
 
   return (
     <nav aria-label="App" className="space-y-6 text-sm">
