@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState, useTransition } from "react";
+import { Suspense, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { AlertTriangle, ArrowRight, Ban, CheckCircle2, Copy, Download, Eye, FileEdit, Lock, Plus, RefreshCw, Save, Trash2, Wand2 } from "lucide-react";
 import { Paper } from "@/components/app/doc-paper";
-import { HsSearch } from "@/components/app/hs-search";
+import { HsFinder } from "@/components/app/hs-finder";
 import { TOOL_DEFS, effectiveLetter } from "@/lib/doc/defs";
 import {
   blankLine, buildView, computeMatrix, fmt, isUsed, readiness, rowAmount, showCell,
@@ -277,9 +277,9 @@ export function DocEditor({ slug, docId, initial, status, refreshMaster, limitRe
 
       {hsFor !== null && (
         <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-ink/60 p-4 pt-[8vh]" onClick={() => setHsFor(null)} onKeyDown={(e) => e.key === "Escape" && setHsFor(null)}>
-          <div className="w-full max-w-2xl rounded-3xl bg-paper p-5 shadow-2xl md:p-6" role="dialog" aria-label="Find HS code" onClick={(e) => e.stopPropagation()}>
+          <div className="w-full max-w-3xl rounded-3xl bg-paper p-5 shadow-2xl md:p-6" role="dialog" aria-label="Find HS code" onClick={(e) => e.stopPropagation()}>
             <div className="mb-3 flex items-center justify-between"><h2 className="text-lg font-semibold">Find HS code</h2><button type="button" onClick={() => setHsFor(null)} className="rounded-full border border-border bg-white px-3 py-1 text-sm">Close</button></div>
-            <HsSearch autoFocus onPick={(code) => { setLine(hsFor, "hs", code); setHsFor(null); }} />
+            <Suspense fallback={null}><HsFinder mode="picker" onPick={(code) => { setLine(hsFor, "hs", code); setHsFor(null); }} /></Suspense>
           </div>
         </div>
       )}

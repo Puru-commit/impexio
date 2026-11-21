@@ -277,7 +277,7 @@ export default function FeaturesPage() {
                 Create your first document free.
               </h2>
               <p className="relative mt-3 max-w-lg text-muted-foreground">
-                Start with one free document. Continue for ₹249 a month if
+                Start with one free document. Continue for ₹499 a month if
                 IMPEXIO saves you time.
               </p>
               <Link

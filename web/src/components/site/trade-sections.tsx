@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, ScanSearch } from "lucide-react";
-import { HsSearch } from "@/components/app/hs-search";
 import { Reveal } from "@/components/site/reveal";
 import { TOOL_GROUPS, type Tool } from "@/lib/tools";
 
@@ -207,19 +206,24 @@ export function HsCodeSection() {
             Search results are guidance, not a legal classification. Always verify
             the final code with the official tariff or your customs broker.
           </p>
-          <Link
-            href="/register"
-            className="mt-7 inline-flex items-center gap-2 rounded-full bg-brass-light px-6 py-3 text-sm font-medium text-ink transition-all hover:bg-paper active:scale-[0.98]"
-          >
-            Create a free account
-            <ArrowRight className="size-4" />
-          </Link>
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)] backdrop-blur-sm md:p-6">
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Try it now: live search</p>
-            <HsSearch publicMode dark />
+          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-7 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)] backdrop-blur-sm md:p-9">
+            <span className="flex size-12 items-center justify-center rounded-2xl bg-brass-light text-ink"><ScanSearch className="size-6" /></span>
+            <h3 className="mt-5 text-2xl font-semibold">Search the HS code list</h3>
+            <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
+              <li className="flex gap-2.5"><span className="mt-2 size-1.5 shrink-0 rounded-full bg-brass-light" />Type a product name or the start of a code</li>
+              <li className="flex gap-2.5"><span className="mt-2 size-1.5 shrink-0 rounded-full bg-brass-light" />Clean pages of nine results, with Previous and Next</li>
+              <li className="flex gap-2.5"><span className="mt-2 size-1.5 shrink-0 rounded-full bg-brass-light" />Copy a code in one click. Free, no sign-up needed</li>
+            </ul>
+            <Link
+              href="/hs-code-finder"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-brass-light px-7 py-3.5 text-sm font-medium text-ink transition-all hover:bg-paper active:scale-[0.98]"
+            >
+              Open HS Code Finder
+              <ArrowRight className="size-4" />
+            </Link>
           </div>
         </Reveal>
       </div>

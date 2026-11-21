@@ -15,8 +15,8 @@ const POINTS = [
   },
   {
     icon: Sparkles,
-    title: "Help with HS codes",
-    text: "Describe a product and get possible HS codes with the reasoning, so you can check them.",
+    title: "Find HS codes fast",
+    text: "Search the HS code list by product name or code, then copy the code into your documents.",
   },
   {
     icon: ShieldCheck,

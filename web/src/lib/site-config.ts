@@ -8,6 +8,6 @@ export const SITE = {
   email: "support@your-domain.com",
   phone: "+91 00000 00000",
   address: "Add your business address here",
-  price: "₹249",
+  price: "₹499",
   updated: "17 November 2026",
 };

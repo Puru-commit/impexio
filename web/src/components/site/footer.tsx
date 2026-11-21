@@ -3,13 +3,16 @@ import Link from "next/link";
 
 const COLUMNS = [
   {
-    title: "Product",
+    title: "Explore",
     links: [
-      { label: "Features", href: "#features" },
-      { label: "Import", href: "#import" },
-      { label: "Export", href: "#export" },
-      { label: "HS Code Finder", href: "#hs-code" },
-      { label: "Pricing", href: "#pricing" },
+      { label: "EXIM Master", href: "/exim-master" },
+      { label: "Export", href: "/export" },
+      { label: "Import", href: "/import" },
+      { label: "Export Incentives", href: "/export-incentives" },
+      { label: "Buyers", href: "/buyers" },
+      { label: "Sellers", href: "/sellers" },
+      { label: "HS Code Finder", href: "/hs-code-finder" },
+      { label: "Pricing", href: "/pricing" },
     ],
   },
   {
@@ -17,7 +20,8 @@ const COLUMNS = [
     links: [
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
-      { label: "FAQ", href: "#faq" },
+      { label: "Log in", href: "/login" },
+      { label: "Create account", href: "/register" },
     ],
   },
   {
